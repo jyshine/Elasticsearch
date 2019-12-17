@@ -1,0 +1,108 @@
+https://victorydntmd.tistory.com/308?category=742451
+
+1. Elasticsearch란?
+
+Elasticsearch는 Apache Lucene( 아파치 루씬 ) 기반의 Java 오픈소스 분산 검색 엔진입니다.
+Elasticsearch를 통해 루씬 라이브러리를 단독으로 사용할 수 있게 되었으며, 
+방대한 양의 데이터를 신속하게, 거의 실시간( NRT, Near Real Time )으로 저장, 검색, 분석할 수 있습니다.
+
+
+
+Elasticsearch는 검색을 위해 단독으로 사용되기도 하며, 
+ELK( Elasticsearch / Logstatsh / Kibana )스택으로 사용되기도 합니다.
+
+ELK 스택이란 다음과 같습니다.
+
+Logstash
+	다양한 소스( DB, csv파일 등 )의 로그 또는 트랜잭션 데이터를 수집, 집계, 파싱하여 Elasticsearch로 전달
+Elasticsearch
+	Logstash로부터 받은 데이터를 검색 및 집계를 하여 필요한 관심 있는 정보를 획득
+Kibana
+	Elasticsearch의 빠른 검색을 통해 데이터를 시각화 및 모니터링
+	
+	
+
+
+LOG -|
+LOG -|----> Logstash [Collect & Transform] ----- Elasticsearch [search & Anlayze]
+LOG -|													|
+														|
+												 Kibana [visualize & Manage]
+												 
+												 
+												 
+												 
+RDB						Elasticsearch
+DATABASE			|	Index
+TABLE				|	Type
+ROW					|	Document
+COLUMN				|	Field
+INDEX				|	Analyez
+PRIMARYKEY			|	_id
+SCHEMA				|	Mapping
+PHYSICAL PARTITION	|	Share
+Logical partition	|	Route
+Relational			|	parent/child, Nested
+SQL 				|	Query DSL
+
+
+GET						SELECT
+	PUT						UPDATE
+	POST					INSERT
+	DELETE					DELETE
+
+
+Elasticsearch Architecture
+
+|-----------------------------|	
+|Elasticsearch Cluster		  |
+|	---------------------	  |
+|	|node				|	  |
+|	|-------------------|     |
+|	|index A  | index B |     |
+|	|		  |         |     |	
+|	|-------------------|     |
+| 							  |	
+|							  |	
+|-----------------------------|
+
+1) 클러스터( cluseter )
+
+클러스터란 Elasticsearch에서 가장 큰 시스템 단위를 의미하며, 최소 하나 이상의 노드로 이루어진 노드들의 집합입니다.
+서로 다른 클러스터는 데이터의 접근, 교환을 할 수 없는 독립적인 시스템으로 유지되며,
+여러 대의 서버가 하나의 클러스터를 구성할 수 있고, 한 서버에 여러 개의 클러스터가 존재할수도 있습니다.
+
+
+Elasticsearch가 검색이 빠른 이유는 inverted index (역색인)에 때문이다.
+
+cluster와 node 정보 확인
+	curl -XGET http://localhost:9200/_cluster/health?pretty=true
+
+ES 현재 클러스터의 상태 확인 
+cat API 사용
+	curl -s localhost:9200/_cat/health?v
+	curl -XGET localhost:9200/_cat/indices?v
+	url -XGET localhost:9200/_cat/shards?v
+	
+
+victolee index에 primary 당 replica가 1개 존재하는데, replica가 전부 unassigned입니다.
+replica는 primary와 같은 노드상에 있을 수 없습니다.
+즉, 현재는 하나의 노드가 실행 중이므로 replica를 배정할 수 없게 됩니다.
+나중에 다른 노드가 클러스터에 포함되면 replica를 배정할 수 있고, 배정되면 green status로 바뀝니다.
+
+curl -XPUT 'localhost:9200/_settings?pretty' -d '{"index":{"number_of_replicas": 0}}' -H 'Content-Type: application/json'
+
+지금은 replica를 갖지 않도록 클러스터 setting을 수정해서 green 상태로 바꿔보도록 하겠습니다.
+그런데 항상 이렇게 처리하는 것은 좋지 않습니다.
+지금 같은 경우는 노드가 master node 1개 밖에 없습니다.
+하지만 data node가 추가 되어 클러스터를 구성해야 한다면, replica shard가 노드마다 할당되는 것이 고가용성에 있어서 좋습니다.
+이런 상황에서 지금과 같이 replica를 0으로 셋팅한다면 안정성이 떨어지는 아키텍쳐가 되겠죠.
+
+
+Cluster 구성
+고작 클러스터의 status만 바꾸는 작업이었는데, node와 shard의 개념들이 나오고 있습니다.
+
+클러스터는 여러 노드의 집합으로 구성되며, 설치시 master node만 존재
+primary shard는 데이터를 저장할 때 나눠진 파티션을 말하며, 설치시 5개가 존재
+replica shard는 고가용성을 위해 존재하는 primary shard의 복제본을 말하며, 설치시 1개가 존재
+primary와 replica는 같은 노드에 존재할 수 없음	
