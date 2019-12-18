@@ -1,5 +1,8 @@
 https://victorydntmd.tistory.com/308?category=742451
 
+
+
+
 1. Elasticsearch란?
 
 Elasticsearch는 Apache Lucene( 아파치 루씬 ) 기반의 Java 오픈소스 분산 검색 엔진입니다.
@@ -20,14 +23,41 @@ Elasticsearch
 Kibana
 	Elasticsearch의 빠른 검색을 통해 데이터를 시각화 및 모니터링
 	
+
+
+Elasticsearch
+	-Started off as scalable Lucene
+	-Horizontally scalable seach engine
+	-Each "shard" id an inverted index of documents
+	-But not just for full text search!
+	-Can handle structured data, and can aggregate data quickly
+	-Often a faster solution than Hadoop/Spark/Flink?etc.
 	
+Kibana
+	-Web UI for searching and visualizing
+	-Complex aggregations, graphs, charts
+	-Often used for log analysis
+	
+Logstash / Beats
+	-Ways to feed data into Elasticsearch
+	-FileBeat can monior log files, parse them, and import into Elasticsearch in near-real-time.
+	-Logstash also pushes data into Elasticsearch from many machines
+	-Not just log files
+	
+X-Pack
+	-Security
+	-Alerting
+	-Monitoring
+	-Reporting
+	-Machine Learning
+	-Graph Exploration	
 
 
 LOG -|
 LOG -|----> Logstash [Collect & Transform] ----- Elasticsearch [search & Anlayze]
-LOG -|													|
-														|
-												 Kibana [visualize & Manage]
+LOG -|									|
+									|
+							Kibana [visualize & Manage]
 												 
 												 
 												 
@@ -35,19 +65,19 @@ LOG -|													|
 RDB						Elasticsearch
 DATABASE			|	Index
 TABLE				|	Type
-ROW					|	Document
+ROW				|	Document
 COLUMN				|	Field
 INDEX				|	Analyez
 PRIMARYKEY			|	_id
 SCHEMA				|	Mapping
-PHYSICAL PARTITION	|	Share
-Logical partition	|	Route
+PHYSICAL PARTITION		|	Share
+Logical partition		|	Route
 Relational			|	parent/child, Nested
 SQL 				|	Query DSL
 
 
 GET						SELECT
-	PUT						UPDATE
+	PUT					UPDATE
 	POST					INSERT
 	DELETE					DELETE
 
@@ -55,15 +85,15 @@ GET						SELECT
 Elasticsearch Architecture
 
 |-----------------------------|	
-|Elasticsearch Cluster		  |
-|	---------------------	  |
-|	|node				|	  |
-|	|-------------------|     |
-|	|index A  | index B |     |
-|	|		  |         |     |	
-|	|-------------------|     |
-| 							  |	
-|							  |	
+|Elasticsearch Cluster	      |
+|	--------------------- |
+|	|node		    | |
+|	|-------------------| |
+|	|index A  | index B | |
+|	|	  | 	    | |	
+|	|-------------------| |
+| 			      |	
+|			      |	
 |-----------------------------|
 
 1) 클러스터( cluseter )
