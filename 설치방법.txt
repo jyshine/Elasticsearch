@@ -8,19 +8,19 @@ Filebeat-7.5.0-amd64.deb
 sudo apt-get update
 sudo dpkg --configure -a
 
-±âº»Åø ¼³Ä¡
-	gedit¼³Ä¡
+ê¸°ë³¸íˆ´ ì„¤ì¹˜
+	geditì„¤ì¹˜
 		sudo apt-get install gedit
-	net-tools ¼³Ä¡
+	net-tools ì„¤ì¹˜
 		sudo apt install net-tools
-	curl ¼³Ä¡
+	curl ì„¤ì¹˜
 		sudo apt-get install curl
 
 
-¼­¹ö ¼³Ä¡
-	Apache(¾ÆÆÄÄ¡) ¼­¹ö
+ì„œë²„ ì„¤ì¹˜
+	Apache(ì•„íŒŒì¹˜) ì„œë²„
 		sudo apt-get install apache2
-JAVA ¼³Ä¡
+JAVA ì„¤ì¹˜
 	sudo add-apt-repository ppa:webupd8team/java
 	sudo apt-get update	
 	//sudo apt-get install oracle-java8-installer
@@ -67,15 +67,15 @@ sudo service apache2 start
 
 curl -XGET "localhost:9200"
 		curl -XGET "localhost:9200"
-			°á°ú ¿À·ù :curl: (3) Port number ended with '?'
-			ÇØ°á : Æ÷Æ® ¿­¾îÁÜ
+			ê²°ê³¼ ì˜¤ë¥˜ :curl: (3) Port number ended with '?'
+			í•´ê²° : í¬íŠ¸ ì—´ì–´ì¤Œ
 				sudo ufw allow 9200
-filebeat 
+elasticsearch index  
 	127.0.0.1:9200/_cat/indices
 Kinaba
 	127.0.0.1:5601
 
-ÇÑ±Û
+í•œê¸€
 cd /usr/share/elasticsearch
 sudo bin/elasticsearch-plugin install analysis-nori
 
@@ -91,60 +91,60 @@ Filebeat-6.4.2-amd64.deb
 sudo apt-get update
 sudo dpkg --configure -a
 
-±âº»Åø ¼³Ä¡
-	gedit¼³Ä¡
+ê¸°ë³¸íˆ´ ì„¤ì¹˜
+	geditì„¤ì¹˜
 		sudo apt-get install gedit
-	net-tools ¼³Ä¡
+	net-tools ì„¤ì¹˜
 		sudo apt install net-tools
-	curl ¼³Ä¡
+	curl ì„¤ì¹˜
 		sudo apt-get install curl
 
 
-¼­¹ö ¼³Ä¡
-	Apache(¾ÆÆÄÄ¡) ¼­¹ö
+ì„œë²„ ì„¤ì¹˜
+	Apache(ì•„íŒŒì¹˜) ì„œë²„
 		sudo apt-get install apache2
-JAVA ¼³Ä¡
+JAVA ì„¤ì¹˜
 	sudo add-apt-repository ppa:webupd8team/java
 	sudo apt-get update	
 	//sudo apt-get install oracle-java8-installer
 	sudo apt install openjdk-8-jdk openjdk-8-jre
 	
-Elasticsearch ¼³Ä¡
+Elasticsearch ì„¤ì¹˜
 	wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.4.2.deb
-Kibana ¼³Ä¡
+Kibana ì„¤ì¹˜
 	wget https://artifacts.elastic.co/downloads/kibana/kibana-6.4.2-amd64.deb
-Logstash ¼³Ä¡
+Logstash ì„¤ì¹˜
 	wget https://artifacts.elastic.co/downloads/logstash/logstash-6.4.2.deb
-Filebeat ¼³Ä¡
+Filebeat ì„¤ì¹˜
 	wget https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-6.4.2-amd64.deb
 
-¼³Ä¡ ÆÄÀÏ È®ÀÎ
+ì„¤ì¹˜ íŒŒì¼ í™•ì¸
 	ls
 
 Elasticsearch
-	¼³Ä¡
+	ì„¤ì¹˜
 		sudo dpkg -i elasticsearch-6.4.2.deb
-	¼­ºñ½º µî·Ï
+	ì„œë¹„ìŠ¤ ë“±ë¡
 		sudo systemctl enable elasticsearch.service
-	¼­ºñ½º ½ÇÇà ¹× ½ÇÇà¿©ºÎ È®ÀÎ
+	ì„œë¹„ìŠ¤ ì‹¤í–‰ ë° ì‹¤í–‰ì—¬ë¶€ í™•ì¸
 		sudo service elasticsearch start
 		curl -XGET "localhost:9200"
-			°á°ú ¿À·ù :curl: (3) Port number ended with '?'
-			ÇØ°á : Æ÷Æ® ¿­¾îÁÜ
+			ê²°ê³¼ ì˜¤ë¥˜ :curl: (3) Port number ended with '?'
+			í•´ê²° : í¬íŠ¸ ì—´ì–´ì¤Œ
 				sudo ufw allow 9200
 Logstash		
 	sudo dpkg -i logstash-6.4.2.deb
 Kibana
 	sudo dpkg -i kibana-6.4.2-amd64.deb
 	
-	¼³Á¤
+	ì„¤ì •
 	sudo gedit /etc/kibana/kibana.yml 
 	
 	#elasticsearch.url: "https://localhost:9200"
 	#server.host: "localhost"
 Filebeat
 	sudo dpkg -i filebeat-6.4.2-amd64.deb
-	¼³Á¤
+	ì„¤ì •
 	sudo gedit /etc/filebeat/filebeat.yml
 	
 	  # Change to true to enable this input configuration.
@@ -170,7 +170,7 @@ curl -XGET "localhost:9200"
 sudo service kibana start
 sudo service filebeat start
 
-È®ÀÎ
+í™•ì¸
 filebeat 
 	127.0.0.1:9200/_cat/indices
 Kinaba
